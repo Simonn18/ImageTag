@@ -1,0 +1,21 @@
+{% extends "gallery/base.html" %}
+{% block title %}Exporter par tag{% endblock %}
+{% block content %}
+    <p class="eyebrow">Collection · Export</p>
+    <h1>Télécharger les images d'un tag</h1>
+    <p class="lead">Choisissez un tag pour regrouper toutes les images associées dans une archive ZIP.</p>
+
+    <section class="panel export-panel" aria-labelledby="tag-export-title">
+        <div class="export-icon" aria-hidden="true">ZIP</div>
+        <h2 id="tag-export-title">Créer votre téléchargement</h2>
+        <p class="criteria">L'archive sera téléchargée dans le dossier de téléchargements configuré par votre navigateur.</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="actions">
+                <button type="submit">Télécharger le ZIP</button>
+                <a class="button secondary" href="{% url 'gallery:list' %}">Retour à la galerie</a>
+            </div>
+        </form>
+    </section>
+{% endblock %}

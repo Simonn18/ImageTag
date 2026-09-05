@@ -1,0 +1,42 @@
+{% extends "gallery/base.html" %}
+{% block title %}Explorer la galerie{% endblock %}
+{% block content %}
+    <p class="eyebrow">Collection · Exploration</p>
+    <h1>Retrouvez vos images par tag</h1>
+    <p class="lead">Filtrez votre collection, combinez plusieurs tags et exportez précisément le résultat obtenu.</p>
+
+    <section class="panel" aria-labelledby="filter-title">
+        <h2 id="filter-title">Filtrer la collection</h2>
+        <form method="get">
+            {{ form.as_p }}
+            <div class="actions">
+                <button type="submit">Rechercher</button>
+                <a class="button secondary" href="{% url 'gallery:list' %}">Réinitialiser</a>
+            </div>
+        </form>
+    </section>
+
+    <div class="actions result-bar">
+        <span><strong>{{ count }}</strong> image(s) trouvée(s)</span>
+        <a class="button secondary" href="{% url 'gallery:export_by_tag' %}">Exporter par tag</a>
+    </div>
+    <p class="criteria">Les tags sélectionnés sont combinés avec une logique <strong>ET</strong>. Critères actifs : {{ criteria }}</p>
+
+    <div class="image-grid">
+        {% for image in images %}
+            <article class="image-card">
+                <img src="{{ image.file.url }}" alt="{{ image.title|default:'Image' }}" loading="lazy">
+                <div class="image-card-body">
+                    <h2>{{ image.title|default:"Sans titre" }}</h2>
+                    <div class="tag-list">
+                        {% for tag in image.tags.all %}<span class="tag">{{ tag.name }}</span>{% empty %}<span class="muted">Aucun tag</span>{% endfor %}
+                    </div>
+                    {% if image.notes %}<p class="notes">{{ image.notes }}</p>{% endif %}
+                    <p class="image-meta">Ajoutée le {{ image.uploaded_at|date:"d/m/Y" }}</p>
+                </div>
+            </article>
+        {% empty %}
+            <p class="empty-state">Aucune image ne correspond à votre recherche.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

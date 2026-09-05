@@ -1,0 +1,16 @@
+{% extends "gallery/base.html" %}
+{% block title %}Ajouter une image{% endblock %}
+{% block content %}
+    <p class="eyebrow">Collection · Nouvelle entrée</p>
+    <h1>Ajouter une image</h1>
+    <p class="lead">Ajoutez une image, un titre, des tags existants ou de nouveaux tags séparés par des virgules, puis une note pour la retrouver facilement.</p>
+
+    <section class="panel" aria-labelledby="upload-title">
+        <h2 id="upload-title">Informations de l'image</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Ajouter à la galerie</button>
+        </form>
+    </section>
+{% endblock %}
